@@ -1,3 +1,4 @@
-rm -rf data.db
-touch data.db
-python3 app.py
+rm -rf app/data.db
+touch app/data.db
+export FLASK_ENV=development
+python3 app/app.py
