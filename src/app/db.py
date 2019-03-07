@@ -5,7 +5,7 @@
   Database Structure for AllSwap web application.
 '''
 from flask_sqlalchemy import SQLAlchemy 
-import datetime 
+from datetime import datetime 
 #from app import login
 #from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -50,7 +50,7 @@ class Product(db.Model):
   :param str name: name of this product
   :param str email: email of the seller
   :param text description: description of this product
-  :param int timestamp: time the product was put up for sale
+  :param DateTime timestamp: time the product was put up for sale
   :param int user_id: id of the seller 
   :param bids: The bids placed on this product.
   """
@@ -61,7 +61,7 @@ class Product(db.Model):
   name = db.Column(db.String, nullable=False)
   email = db.Column(db.String, db.ForeignKey('user.email'), nullable=False)
   description = db.Column(db.Text, nullable=True)
-  timestamp = db.Column(db.Integer, default = 0)
+  timestamp = db.Column(db.DateTime, default = datetime.now)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
   bids = db.relationship('Bid', cascade= 'delete')
 
@@ -80,6 +80,10 @@ class Product(db.Model):
       'timestamp': self.timestamp
     }
 
+  def __str__(self):
+        """Return the string representation of the product sale."""
+        return '{} sold by {}'.format(self.name, self.email)
+
 class Bid(db.Model):
   """Bid placed on the product for sale.
 
@@ -95,9 +99,9 @@ class Bid(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   amount = db.Column(db.Integer, nullable=False)
-  timestamp = db.Column(db.Integer, default=0)
+  timestamp = db.Column(db.DateTime, default=datetime.now)
   buyer_email = db.Column(db.String, db.ForeignKey('user.email'), nullable=False)
-  product_id = db.COlumn(db.Integer, db.ForeignKey('product.id'), nullable=False)
+  product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
   buyer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
   def __init__(self, **kwargs):
@@ -113,7 +117,10 @@ class Bid(db.Model):
       'timestamp': self.timestamp,
       'buyer_email': self.seller_email
     }
-
+  
+  def __str__(self):
+    """Return the string representation of the bid placed."""
+    return '{} dollar bid placed by {}'.format(self.amount, self.buyer_email)
 
 
 
