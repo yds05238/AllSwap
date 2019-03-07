@@ -49,7 +49,7 @@ class Product(db.Model):
   :param int id: Unique id for this product
   :param str name: name of this product
   :param str email: email of the seller
-  :param text description: description of this product
+  :param int price: price of the product
   :param DateTime timestamp: time the product was put up for sale
   :param int user_id: id of the seller 
   :param bids: The bids placed on this product.
@@ -60,7 +60,7 @@ class Product(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
   email = db.Column(db.String, db.ForeignKey('user.email'), nullable=False)
-  description = db.Column(db.Text, nullable=True)
+  price = db.Column(db.Integer, nullable=False)
   timestamp = db.Column(db.DateTime, default = datetime.now)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
   bids = db.relationship('Bid', cascade= 'delete')
@@ -68,7 +68,7 @@ class Product(db.Model):
   def __init__(self, **kwargs):
     self.name = kwargs.get('name', '')
     self.email = kwargs.get('email')
-    self.description = kwargs.get('description', '')
+    self.price = kwargs.get('price', '')
     self.user_id = kwargs.get('user_id')
   
   def serialize(self):
@@ -76,7 +76,7 @@ class Product(db.Model):
       'id': self.id,
       'name': self.name, 
       'email': self.email,
-      'description': self.description,
+      'price': self.price,
       'timestamp': self.timestamp
     }
 

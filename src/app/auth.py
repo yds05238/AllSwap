@@ -33,6 +33,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' %db_filename
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
+db.init_app(app)
+with app.app_context():
+  db.create_all()
+
+@app.route('/')
+@app.route('index')
+def index():
+  user = {}
+@app.route('/login', methods=['GET','POST'])
+def login():
+  if 
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')

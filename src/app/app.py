@@ -30,149 +30,130 @@ with app.app_context():
 #login = LoginManager(app)
 #login.login_view = 'login'
 
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
-)
-from werkzeug.exceptions import abort
+@app.route('/')
+def test():
+    return render_template('index.html'), 200
 
-from flaskr.auth import login_required
-from flaskr.db import get_db
+#Get all products
+@app.route('/api/products/')
+def get_all_products():
+    products = Product.query.all()
+    result = {"success": True, "data": [product.serialize() for product in products]}
+    return json.dumps(result), 200
 
-bp = Blueprint('blog', __name__)
+#Create a Product Posting
+@app.route("/api/products/", methods=["POST"])
+def create_product():
+    if (request.data):
+        product_body = json.loads(request.data)
+        product = Product(
+            name = product_body.get('name'),
+            email = product_body.get('email'),
+            description = product_body.get('description'),
+            user_id = product_body.get('user_id')
+        )
+        db.session.add(product)
+        db.session.commit()
+        return json.dumps({"success": True, "data": product.serialize()}), 201
+    else:
+        return json.dumps({"success": False, "error": "Invalid POST request"}), 500
 
+#Get a speific post 
+@app.route('/api/product/<str:name>')
+def get_product(name):
+    product = Product.query.filter_by(name=name).first()
+    if product is not None:
+        return json.dumps({"success": True, "data": product.serialize()}), 200
+    return json.dumps({"success": False, "error": "Product not found..."}), 404
 
-@bp.route('/')
-def index():
-    """Show all the posts, most recent first."""
-    db = get_db()
-    posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' ORDER BY created DESC'
-    ).fetchall()
-    return render_template('blog/index.html', posts=posts)
-
-
-def get_post(id, check_author=True):
-    """Get a post and its author by id.
-    Checks that the id exists and optionally that the current user is
-    the author.
-    :param id: id of post to get
-    :param check_author: require the current user to be the author
-    :return: the post with author information
-    :raise 404: if a post with the given id doesn't exist
-    :raise 403: if the current user isn't the author
-    """
-    post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
-        (id,)
-    ).fetchone()
-
-    if post is None:
-        abort(404, "Post id {0} doesn't exist.".format(id))
-
-    if check_author and post['author_id'] != g.user['id']:
-        abort(403)
-
-    return post
-
-
-@bp.route('/create', methods=('GET', 'POST'))
-@login_required
-def create():
-    """Create a new post for the current user."""
-    if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
-        error = None
-
-        if not title:
-            error = 'Title is required.'
-
-        if error is not None:
-            flash(error)
+#Edit a Product Posting
+@app.route('/api/product/<str:name>', methods=["POST"])
+def edit_product_price(name):
+    if (request.data):
+        product = Product.query.filter_by(name=name).first()
+        if product is not None:
+            product_body = json.loads(request.data)
+            product.amount = product_body.get('price', product.price)
+            db.session.commit()
+            return json.dumps({"success": True, "data": product.serialize()}), 201
         else:
-            db = get_db()
-            db.execute(
-                'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?)',
-                (title, body, g.user['id'])
+            return json.dumps({"success": False, "error": "Produc not found..."}), 404
+    else:
+        return json.dumps({"success": False, "error": "Invalid POST request"}), 500
+
+
+#Delete a specific product posting
+@app.route("/api/product/<str:name>/", methods=["DELETE"])
+def delete_product(name):
+    product = Product.query.filter_by(name=name), first()
+    if product is not None:
+        db.session.delete(product)
+        db.session.commit()
+        return json.dumps({"success": True, "data": product.serialize()}), 200
+    else:
+        return json.dumps({"success": False, "error": "Product not found..."}), 404
+
+#Get all bids of a specific product 
+@app.route("api/product/<str:name>/bids/")
+def get_bids(name):
+    product = Product.query.filter_by(name=name).first() 
+    if product is not None:
+        bids = [bid.serialize() for bid in product.bids]
+        return json.dumps({"success": True, "data": bids}), 200
+    else:
+        return json.dumps({"success": False, "error": "Product not found..."}), 404
+
+#create a bid posting
+@app.route("/api/product/<str:name>/bid/", methods=["POST"])
+def create_bid(name):
+    if (request.data):
+        product = Product.query.filter_by(name=name).first()
+        if product is not None:
+            product_body = json.loads(request.data)
+            bid = Bid(
+                amount = product_body.get('amount', 0),
+                buyer_email = product_body.get('buyer_email'),
+                product_id = product_body.get('product_id'),
+                buyer_id = product_body.get('buyer_id')
             )
-            db.commit()
-            return redirect(url_for('blog.index'))
-
-    return render_template('blog/create.html')
-
-
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@login_required
-def update(id):
-    """Update a post if the current user is the author."""
-    post = get_post(id)
-
-    if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
-        error = None
-
-        if not title:
-            error = 'Title is required.'
-
-        if error is not None:
-            flash(error)
+            product.bids.append(bid)
+            db.session.add(bid)
+            db.session.commit()
+            return json.dumps({"success": True, "data": bid.serialize()}), 201
         else:
-            db = get_db()
-            db.execute(
-                'UPDATE post SET title = ?, body = ? WHERE id = ?',
-                (title, body, id)
-            )
-            db.commit()
-            return redirect(url_for('blog.index'))
+            return json.dumps({"success": False, "error": "Product not found..."}), 404
+    else:
+        return json.dumps({"success": False, "error": "Invalid POST request"}), 500
 
-    return render_template('blog/update.html', post=post)
+#Delete a Bid posting
+@app.route("/api/bid/<int:id>/", methods=["DELETE"])
+def delete_bid(id):
+    bid = Bid.query.filter_by(id=id), first()
+    if bid is not None:
+        db.session.delete(bid)
+        db.session.commit()
+        return json.dumps({"success": True, "data": bid.serialize()}), 200
+    else:
+        return json.dumps({"success": False, "error": "Bid not found..."}), 404
 
-
-@bp.route('/<int:id>/delete', methods=('POST',))
-@login_required
-def delete(id):
-    """Delete a post.
-    Ensures that the post exists and that the logged in user is the
-    author of the post.
-    """
-    get_post(id)
-    db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
-    db.commit()
-    return redirect(url_for('blog.index'))
-
-"""
-@app.route('/index')
-@login_required
-def index():
-    return render_template("index.html"), 200
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form)
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
-"""
+#Vote on user
+@app.route("/api/user/<str:email>/rate/", methods=["POST"])
+def rate_user(email):
+    if (request.data):
+        user = User.query.filter_by(email=email).first()
+        if user is not None:
+            post_body = json.loads(request.data)
+            rate = post_body.get("rate", True)
+            if (rate):
+                user.rating += 1
+            elif (rate == False):
+                user.rating -= 1 
+            db.session.commit()
+            return json.dumps({"success": True, "data": user.serialize()}), 201
+        else:
+            return json.dumps({"success": False, "error": "User not found..."}), 404
+    else:
+        return json.dumps({"success": False, "error": "Invalid POST request"}), 500
 
 if __name__ == '__main__':
     app.run(host=CLIENT_HOST, port=PORT, debug=True)
