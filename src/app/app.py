@@ -6,17 +6,21 @@
 '''
 import json
 from flask import Flask, request, render_template
-from db import db, User 
+from db import db 
+#from db import db 
 from os import path 
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+#from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
+db_filename = "data.db"
+app = Flask(__name__)
+db.init_app(app)
 
+CLIENT_HOST = '0.0.0.0'
+PORT = 5000
 
-#db_filename = "data.db"
-app=Flask(__name__)
 #app.config.from_object('config')
-login = LoginManager(app)
-login.login_view = 'login'
+#login = LoginManager(app)
+#login.login_view = 'login'
 
 
 '''
@@ -27,6 +31,7 @@ with app.app_context():
 @app.route('/')
 def index():
     return render_template("index.html"), 200
+"""
 @app.route('/index')
 @login_required
 def index():
@@ -51,6 +56,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+"""
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host=CLIENT_HOST, port=PORT, debug=True)
