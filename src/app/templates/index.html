@@ -18,6 +18,20 @@
     Web Platform for Buying/Selling Used Textbooks
   </p>
   <div id="textbook"></div>
+  <form action="http://localhost:5000/api/products/" method="GET">
+    All Products: <button type="submit">Products</button>
+  </form>
+  <form action="http://localhost:5000/api/products/" method="POST">
+    Put Product up for Sale: <input type="text" name="name"><br>
+    <input type="text" name="price"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <form method="post" action="/api/products/" enctype="multipart/form-data">
+    <input type="text" name="name">
+    <input type="int" name="price">
+    <button type="submit">Post Product</button>
+  </form>
+
 </body>
 
 </html>
