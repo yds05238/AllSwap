@@ -43,7 +43,6 @@ def index():
   user = {}
 @app.route('/login', methods=['GET','POST'])
 def login():
-  if 
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')

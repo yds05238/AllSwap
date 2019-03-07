@@ -4,11 +4,9 @@
 
     Code for backend routes.
 '''
-#Based on code from Base code from tutorial http://flask.pocoo.org/docs/1.0/tutorial/
-
 from flask import Flask, request, render_template
 import json
-from db import db, User, Product, Bid
+from db import db, Product, Bid
 from os import path 
 #from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
@@ -48,9 +46,7 @@ def create_product():
         product_body = json.loads(request.data)
         product = Product(
             name = product_body.get('name'),
-            email = product_body.get('email'),
-            description = product_body.get('description'),
-            user_id = product_body.get('user_id')
+            price= product_body.get('price')
         )
         db.session.add(product)
         db.session.commit()
@@ -59,21 +55,21 @@ def create_product():
         return json.dumps({"success": False, "error": "Invalid POST request"}), 500
 
 #Get a speific post 
-@app.route('/api/product/<str:name>')
-def get_product(name):
-    product = Product.query.filter_by(name=name).first()
+@app.route('/api/product/<int:id>/')
+def get_product(id):
+    product = Product.query.filter_by(id=id).first()
     if product is not None:
         return json.dumps({"success": True, "data": product.serialize()}), 200
     return json.dumps({"success": False, "error": "Product not found..."}), 404
 
 #Edit a Product Posting
-@app.route('/api/product/<str:name>', methods=["POST"])
-def edit_product_price(name):
+@app.route('/api/product/<int:id>/', methods=["POST"])
+def edit_product_price(id):
     if (request.data):
-        product = Product.query.filter_by(name=name).first()
+        product = Product.query.filter_by(id=id).first()
         if product is not None:
             product_body = json.loads(request.data)
-            product.amount = product_body.get('price', product.price)
+            product.price = product_body.get('price', product.price)
             db.session.commit()
             return json.dumps({"success": True, "data": product.serialize()}), 201
         else:
@@ -83,9 +79,9 @@ def edit_product_price(name):
 
 
 #Delete a specific product posting
-@app.route("/api/product/<str:name>/", methods=["DELETE"])
-def delete_product(name):
-    product = Product.query.filter_by(name=name), first()
+@app.route("/api/product/<int:id>/", methods=["DELETE"])
+def delete_product(id):
+    product = Product.query.filter_by(id=id).first()
     if product is not None:
         db.session.delete(product)
         db.session.commit()
@@ -94,9 +90,9 @@ def delete_product(name):
         return json.dumps({"success": False, "error": "Product not found..."}), 404
 
 #Get all bids of a specific product 
-@app.route("api/product/<str:name>/bids/")
-def get_bids(name):
-    product = Product.query.filter_by(name=name).first() 
+@app.route("/api/product/<int:id>/bids/")
+def get_bids(id):
+    product = Product.query.filter_by(id=id).first() 
     if product is not None:
         bids = [bid.serialize() for bid in product.bids]
         return json.dumps({"success": True, "data": bids}), 200
@@ -104,10 +100,10 @@ def get_bids(name):
         return json.dumps({"success": False, "error": "Product not found..."}), 404
 
 #create a bid posting
-@app.route("/api/product/<str:name>/bid/", methods=["POST"])
-def create_bid(name):
+@app.route("/api/product/<int:id>/bid/", methods=["POST"])
+def create_bid(id):
     if (request.data):
-        product = Product.query.filter_by(name=name).first()
+        product = Product.query.filter_by(id=id).first()
         if product is not None:
             product_body = json.loads(request.data)
             bid = Bid(
@@ -122,36 +118,6 @@ def create_bid(name):
             return json.dumps({"success": True, "data": bid.serialize()}), 201
         else:
             return json.dumps({"success": False, "error": "Product not found..."}), 404
-    else:
-        return json.dumps({"success": False, "error": "Invalid POST request"}), 500
-
-#Delete a Bid posting
-@app.route("/api/bid/<int:id>/", methods=["DELETE"])
-def delete_bid(id):
-    bid = Bid.query.filter_by(id=id), first()
-    if bid is not None:
-        db.session.delete(bid)
-        db.session.commit()
-        return json.dumps({"success": True, "data": bid.serialize()}), 200
-    else:
-        return json.dumps({"success": False, "error": "Bid not found..."}), 404
-
-#Vote on user
-@app.route("/api/user/<str:email>/rate/", methods=["POST"])
-def rate_user(email):
-    if (request.data):
-        user = User.query.filter_by(email=email).first()
-        if user is not None:
-            post_body = json.loads(request.data)
-            rate = post_body.get("rate", True)
-            if (rate):
-                user.rating += 1
-            elif (rate == False):
-                user.rating -= 1 
-            db.session.commit()
-            return json.dumps({"success": True, "data": user.serialize()}), 201
-        else:
-            return json.dumps({"success": False, "error": "User not found..."}), 404
     else:
         return json.dumps({"success": False, "error": "Invalid POST request"}), 500
 
