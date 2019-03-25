@@ -42,4 +42,7 @@ conn.execute('''CREATE TABLE categories
 		name TEXT
 		)''')
 
+
+
 conn.close()
+
