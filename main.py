@@ -129,6 +129,15 @@ def editProfile():
         profileData = cur.fetchone()
     conn.close()
     return render_template("editProfile.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+@app.route("/account/orders")
+def order():
+    if 'email' not in session:
+        return redirect(url_for('root'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    
+    msg = "We have not implemented this yet."
+    print(msg)
+    return redirect(url_for('root'))
 
 @app.route("/account/profile/changePassword", methods=["GET", "POST"])
 def changePassword():
