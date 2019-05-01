@@ -1,36 +1,45 @@
+html, body {
+    width: 100%;
+    overflow-x:  hidden;
+}
+
 #logo {
-	height: 40px;
-	width: 50px;
-	margin-left: 20px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-right: 20px;
-	float: left;
+	display: block;
+    margin: 0 auto;
+	height: 100%;
 }
 
 #title {
-	background-color: black;
+	background-color: transparent;
 	display: inline-block;
 	width: 100%;
 }
 
-#searchBox {
-	height: 20px;
-	width: 800px;
-	margin-left: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-right: 20px;
-	float: left;
-	font-size: 1.5em;
+input[type=text], select {
+    width: 500px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+	resize: vertical;
+	margin-left: 30vw;
 }
 
-#searchButton {
-	height: 25px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-right: 20px;
-	float: left;
+input[type=submit], button {
+    background-color: #F22613;
+    color: black;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+	cursor: pointer;
+	margin-right: 12px;
+}
+
+input[type=submit]:hover {
+    background-color: #F22613;
+    color: white;
 }
 
 .dropbtn {
@@ -74,20 +83,49 @@
 }
 
 #signInButton {
-	color: yellow;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;
-	float: left;
+    background-color: #F22613;
+    color: black;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	width: 50px;
+	text-decoration: none;
+	margin-right: 10px;
+	height: 16px;
+	margin-top: 6px;
+	margin-bottom: 16px;
 }
-#kart {
+
+#signInButton:hover {
+    background-color:  #F22613;
 	color: white;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;
-	float: left;
+	text-decoration: none;
+}
+
+#kart {
+    background-color:  #F22613;
+    color: black;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+	width: 120px;
+	text-decoration: none;
+	height: 16px;
+	margin-top: 6px;
+	margin-bottom: 16px;
+}
+
+#kart a{
+	margin-left: auto;
+    margin-right: auto;
+}
+
+#kart:hover {
+    background-color: rgb(253, 229, 229);
+	color: white;
+	text-decoration: none;
 }
 
 #cartIcon {
@@ -95,3 +133,88 @@
 	width: 30px;
 }
 
+.foot{
+    font-size: 12px;
+    padding: 10px 10px;
+    clear: left;
+	text-align: center;
+	width: 100%;
+	background-color:  #F22613;
+}
+
+.foot p {
+    color: black;
+    font-size: 2vh;
+
+    font-family: "Times New Roman", Times, serif;
+}
+
+#container1 {
+	display: flex;
+}
+
+.flex-container {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+}
+
+.flex-container li {
+	background:  #F22613;
+	padding: 5px;
+	width: 200px;
+	height: 100px;
+
+	line-height: 150px;
+	color: white;
+	font-weight: bold;
+	font-size: 3em;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.displayCategory h2 {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+#tables {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+	border-spacing: 20px;
+}
+
+#itemImage {
+	border-radius: 4px;
+}
+
+body {
+    background-color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}

@@ -7,19 +7,13 @@
 </head>
 <body>
 <div id="title">
-	<a href="/">
-		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
-	</a>
-	<form>
-		<input id="searchBox" type="text" name="searchQuery">
-		<input id="searchButton" type="submit" value="Search">
-	</form>
-
-	{% if not loggedIn %}
-	<div id="signInButton">
-		<a class="link" href="/loginForm">Sign In</a>
+	<div id="container1">
+		{% if not loggedIn %}
+		<div id="signInButton">
+			<a class="link" href="/loginForm" style="text-decoration:none">Log In</a>
+		</div>
+		{% else %}
 	</div>
-	{% else %}
 	<div class="dropdown">
 		<button class="dropbtn">Hello, <br>{{firstName}}</button>
 		<div class="dropdown-content">
@@ -39,26 +33,31 @@
 		</a>
 	</div>
 </div>
+
 <div class="display">
+	<div id="banner">
+		<a href="/">
+			<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		</a>
+	</div>
+	<div class="pleasecenter">
+		<form id="center">
+			<input id="searchBox" type="text" name="searchQuery">
+			<input id="searchButton" type="submit" value="Search">
+		</form>
+	</div>
 	<div class="displayCategory">
-		<h2>Shop by Category: </h2>
-		<ul>
+		<h2>Shop by Category</h2>
+		<ul class="flex-container">
 			{% for row in categoryData %}
 			<li><a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a></li>
 			{% endfor %}
 		</ul>
 	</div>
-	<div>
-		<h2>Items</h2>
+	<h2>Items</h2>
+	<div id="tables">
 		{% for data in itemData %}
 		<table>
-			<tr id="productName">
-				{% for row in data %}
-				<td>
-					{{row[1]}}
-				</td>
-				{% endfor %}
-			</tr>
 			<tr id="productImage">
 				{% for row in data %}
 				<td>
@@ -68,6 +67,13 @@
 				</td>
 				{% endfor %}
 			</tr>
+			<tr id="productName">
+					{% for row in data %}
+					<td>
+						{{row[1]}}
+					</td>
+					{% endfor %}
+				</tr>
 			<tr id="productPrice">
 				{% for row in data %}
 				<td>
@@ -79,6 +85,14 @@
 		{% endfor %}
 	</div>
 </div>
+	<footer>
+        <div id="contact"></div>
+        <div class="foot">
+          <p>© AllSwap 2019</p>
+            
+        </div>
+    </footer>
+
 </body>
 </html>
 
