@@ -1,7 +1,10 @@
 <html>
 <head>
 <title>	First flask app </title>
+<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+
 </head>
+
 <body>
 <p> {{error}} </p>
 <form action="/login" method="POST">

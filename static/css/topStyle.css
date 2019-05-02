@@ -43,7 +43,7 @@ input[type=submit]:hover {
 }
 
 .dropbtn {
-	background-color: black;
+	background-color: #F22613;
 	color: white;
 	padding: 16px;
 	font-size: 15px;
@@ -66,7 +66,7 @@ input[type=submit]:hover {
 
 .dropdown-content a {
 	font-size: 14px;
-	color: black;
+	color: #F22613;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
@@ -92,7 +92,7 @@ input[type=submit]:hover {
 	width: 50px;
 	text-decoration: none;
 	margin-right: 10px;
-	height: 16px;
+	height: 24px;
 	margin-top: 6px;
 	margin-bottom: 16px;
 }
@@ -112,7 +112,7 @@ input[type=submit]:hover {
     cursor: pointer;
 	width: 120px;
 	text-decoration: none;
-	height: 16px;
+	height: 24px;
 	margin-top: 6px;
 	margin-bottom: 16px;
 }
@@ -204,6 +204,11 @@ h2 {
 	-webkit-flex-flow: row wrap;
 	justify-content: space-around;
 	border-spacing: 20px;
+}
+
+.searchbar {
+	align-content: center;
+	align-items: center;
 }
 
 #itemImage {

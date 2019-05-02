@@ -27,3 +27,8 @@ table {
 .displayCategory ul li {
 	font-size: 20px;
 }
+
+.displayCategory flex-container{
+	max-width: 20vw;
+	height: 30px;
+}
