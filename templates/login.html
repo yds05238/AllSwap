@@ -1,11 +1,16 @@
 <html>
 <head>
 <title>	First flask app </title>
-<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+
 
 </head>
 
 <body>
+<div id="banner">
+		<a href="/">
+			<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		</a>
+	</div>
 <p> {{error}} </p>
 <form action="/login" method="POST">
 	<p>Email: <input type="text" name="email"></p>

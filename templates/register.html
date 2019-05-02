@@ -5,6 +5,11 @@
 </script>
 </head>
 <body>
+<div id="banner">
+		<a href="/">
+			<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		</a>
+	</div>
 <form action="/register" method="POST" onsubmit="return validate()">
     <p>Email: <input type="email" name="email"></p>
 
