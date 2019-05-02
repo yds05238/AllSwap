@@ -29,7 +29,7 @@ input[type=text], select {
 
 input[type=submit], button {
     background-color: #F22613;
-    color: black;
+	color: white;
     padding: 10px 18px;
     border: none;
     border-radius: 4px;
@@ -105,7 +105,7 @@ input[type=submit]:hover {
 
 #kart {
     background-color:  #F22613;
-    color: black;
+    color: white;
     padding: 10px 18px;
     border: none;
     border-radius: 4px;
@@ -118,6 +118,8 @@ input[type=submit]:hover {
 }
 
 #kart a{
+	text-decoration: none;
+	color: white;
 	margin-left: auto;
     margin-right: auto;
 }
@@ -143,7 +145,7 @@ input[type=submit]:hover {
 }
 
 .foot p {
-    color: black;
+	color: white;
     font-size: 2vh;
 
     font-family: "Times New Roman", Times, serif;
@@ -151,6 +153,10 @@ input[type=submit]:hover {
 
 #container1 {
 	display: flex;
+}
+
+#signInButton a {
+	color: white;
 }
 
 .flex-container {
@@ -165,6 +171,7 @@ input[type=submit]:hover {
 	display: flex;
 
 	-webkit-flex-flow: row wrap;
+	text-decoration: none;
 	justify-content: space-around;
 }
 
@@ -172,15 +179,21 @@ input[type=submit]:hover {
 	background:  #F22613;
 	padding: 5px;
 	width: 200px;
-	height: 100px;
+	height: 50px;
 
-	line-height: 150px;
+	line-height: 50px;
 	color: white;
 	font-weight: bold;
 	font-size: 3em;
 	text-align: center;
 	border-radius: 4px;
 }
+
+.flex-container a {
+	text-decoration: none;
+	color: white;
+}
+
 
 .displayCategory h2 {
 	text-align: center;
@@ -209,6 +222,10 @@ h2 {
 .searchbar {
 	align-content: center;
 	align-items: center;
+}
+
+#searchButton {
+	text-decoration: none;
 }
 
 #itemImage {
