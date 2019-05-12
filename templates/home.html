@@ -10,14 +10,14 @@
 	<div id="container1">
 		{% if not loggedIn %}
 		<div id="signInButton">
-			<a class="link" href="/loginForm" style="text-decoration:none">Log In</a>
+			<a class="link" href="/loginForm" style = "font-family:Helvetica, Arial, sans-serif;font-size:13px;">Log In</a>
 		</div>
 		{% else %}
 	</div>
 	<div class="dropdown">
 		<button class="dropbtn">Hello, <br>{{firstName}}</button>
 		<div class="dropdown-content">
-	
+
 			<a href="/account/profile">Your profile</a>
 			<a href="/add">Sell</a>
 			<hr>
@@ -27,7 +27,7 @@
 
 	{% endif %}
 	<div id="kart" style="margin-left: 85vw;">
-		<a class="link" href="/cart">
+		<a style = "font-family:Helvetica, Arial, sans-serif;font-size:14px;" class="link" href="/cart">
 			<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
 			CART {{noOfItems}}
 		</a>
@@ -46,16 +46,16 @@
 			<input id="searchButton" type="submit" value="Search">
 		</form>
 	</div>
-	<div class="displayCategory">
-		<h2>Shop by Category</h2>
+	<div class="displayCategory" style = "font-family:Helvetica, Arial, sans-serif;font-size:16px;">
+		<h2 >Shop by Category</h2>
 		<ul class="flex-container">
 			{% for row in categoryData %}
 			<li><a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a></li>
 			{% endfor %}
 		</ul>
 	</div>
-	<h2>Items</h2>
-	<div id="tables">
+	<h2 style = "font-family:Helvetica, Arial, sans-serif;font-size:24px;"> Items </h2>
+	<div id="tables" style = "font-family:Helvetica, Arial, sans-serif;font-size:16px;">
 		{% for data in itemData %}
 		<table>
 			<tr id="productImage">
@@ -88,11 +88,10 @@
 	<footer>
         <div id="contact"></div>
         <div class="foot">
-          <p>© AllSwap 2019</p>
-            
+          <p style = "font-family:Helvetica, Arial, sans-serif;font-size:16px;">© AllSwap 2019</p>
+
         </div>
     </footer>
 
 </body>
 </html>
-
