@@ -36,6 +36,22 @@ def root():
     itemData = parse(itemData)   
     return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
 
+@app.route("/search")
+def search():
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    productname = request.args.get("name")
+    name = '%' + productname + '%'
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        #categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = ?", (categoryId, ))
+        cur.execute("SELECT productId, name, price, description, image, stock FROM products WHERE name LIKE ?", (name, ))
+        itemData = cur.fetchall()
+        cur.execute('SELECT categoryId, name FROM categories')
+        categoryData = cur.fetchall()
+    itemData = parse(itemData)   
+    return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
+
+
 @app.route("/add")
 def admin():
     with sqlite3.connect('database.db') as conn:
