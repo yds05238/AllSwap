@@ -1,22 +1,20 @@
+# Code for creating database tables
 import sqlite3
 
 #Open database
 conn = sqlite3.connect('database.db')
 
-#Create table
+#Create tables
 conn.execute('''CREATE TABLE users 
 		(userId INTEGER PRIMARY KEY, 
 		password TEXT,
 		email TEXT,
 		firstName TEXT,
 		lastName TEXT,
-		address1 TEXT,
-		address2 TEXT,
+		address TEXT,
 		zipcode TEXT,
 		city TEXT,
-		state TEXT,
-		country TEXT, 
-		phone TEXT
+		state TEXT
 		)''')
 
 conn.execute('''CREATE TABLE products
@@ -28,6 +26,7 @@ conn.execute('''CREATE TABLE products
 		stock INTEGER,
 		categoryId INTEGER,
 		FOREIGN KEY(categoryId) REFERENCES categories(categoryId)
+		
 		)''')
 
 conn.execute('''CREATE TABLE kart
@@ -41,8 +40,6 @@ conn.execute('''CREATE TABLE categories
 		(categoryId INTEGER PRIMARY KEY,
 		name TEXT
 		)''')
-
-
 
 conn.close()
 

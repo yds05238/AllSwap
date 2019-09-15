@@ -11,8 +11,8 @@
 * Posting Products for Sale
 * Organize Products by Category
 
-## Usage :
-### Run project by :
+## Usage:
+### Run project by:
 
 ``` python
 
@@ -26,6 +26,16 @@
 
 That's it. I think... 
 
-## Done :
+## Done:
 
 Now the project is running at `http://localhost:5000` 
+
+
+## Work Left:
+* Host Database
+* Deploy 
+* Message Function
+* Transaction & Purchase Function
+* User Product Recommendation Function
+
+

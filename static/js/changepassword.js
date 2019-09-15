@@ -4,7 +4,7 @@ function validate() {
     if (pass == cpass) {
         return true;
     } else {
-        alert("Passwords do not match!");
+        alert("Passwords do not match!!!!!");
         return false;
     }
 }

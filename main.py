@@ -33,27 +33,25 @@ def root():
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    itemData = parse(itemData)   
-    return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
+    productData = parse(itemData)   
+    return render_template('home.html', itemData=productData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
 
-@app.route("/search")
+@app.route("/displaySearch")
 def search():
     loggedIn, firstName, noOfItems = getLoginDetails()
-    productname = request.args.get("name")
-    name = '%' + productname + '%'
+    productname = request.args.get("searchQuery")
+    pname = '%' + productname + '%'
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
-        #categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = ?", (categoryId, ))
-        cur.execute("SELECT productId, name, price, description, image, stock FROM products WHERE name LIKE ?", (name, ))
-        itemData = cur.fetchall()
+        cur.execute("SELECT * from products WHERE name Like ?", (pname, ))
+        pData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    itemData = parse(itemData)   
-    return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
-
+    productData = parse(pData)   
+    return render_template('displaysearch.html', data=productData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData, searchName=productname)
 
 @app.route("/add")
-def admin():
+def addProduct():
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
         cur.execute("SELECT categoryId, name FROM categories")
@@ -141,7 +139,7 @@ def editProfile():
     loggedIn, firstName, noOfItems = getLoginDetails()
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
-        cur.execute("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = ?", (session['email'], ))
+        cur.execute("SELECT userId, email, firstName, lastName, address, zipcode, city, state FROM users WHERE email = ?", (session['email'], ))
         profileData = cur.fetchone()
     conn.close()
     return render_template("editProfile.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
@@ -190,17 +188,16 @@ def updateProfile():
         email = request.form['email']
         firstName = request.form['firstName']
         lastName = request.form['lastName']
-        address1 = request.form['address1']
+        address = request.form['address']
         address2 = request.form['address2']
         zipcode = request.form['zipcode']
         city = request.form['city']
         state = request.form['state']
-        country = request.form['country']
-        phone = request.form['phone']
+
         with sqlite3.connect('database.db') as con:
                 try:
                     cur = con.cursor()
-                    cur.execute('UPDATE users SET firstName = ?, lastName = ?, address1 = ?, address2 = ?, zipcode = ?, city = ?, state = ?, country = ?, phone = ? WHERE email = ?', (firstName, lastName, address1, address2, zipcode, city, state, country, phone, email))
+                    cur.execute('UPDATE users SET firstName = ?, lastName = ?, address = ?, zipcode = ?, city = ?, state = ? WHERE email = ?', (firstName, lastName, address, zipcode, city, state, email))
 
                     con.commit()
                     msg = "Saved Successfully"
@@ -320,18 +317,15 @@ def register():
         email = request.form['email']
         firstName = request.form['firstName']
         lastName = request.form['lastName']
-        address1 = request.form['address1']
-        address2 = request.form['address2']
+        address = request.form['address']
         zipcode = request.form['zipcode']
         city = request.form['city']
         state = request.form['state']
-        country = request.form['country']
-        phone = request.form['phone']
 
         with sqlite3.connect('database.db') as con:
             try:
                 cur = con.cursor()
-                cur.execute('INSERT INTO users (password, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (hashlib.md5(password.encode()).hexdigest(), email, firstName, lastName, address1, address2, zipcode, city, state, country, phone))
+                cur.execute('INSERT INTO users (password, email, firstName, lastName, address, zipcode, city, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', (hashlib.md5(password.encode()).hexdigest(), email, firstName, lastName, address, zipcode, city, state))
 
                 con.commit()
 
