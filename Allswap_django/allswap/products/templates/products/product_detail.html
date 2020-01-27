@@ -1,12 +1,13 @@
 {% extends 'product_base.html' %}
 
 {% block products_content %}
+<h2> <img src = "{{ product.image.urls }}" alt = "img" style = "width:100px;height:100px"> </h2>
 <h1>{{product.name}}</h1>
 <h2>Price: {{product.price}}</h2>
 <h2>Description: {{product.description}}</h2>
 
 <div class = "image">
-    {{product.image}}
+    {{ product.image.urls }}
 </div>
     
 
