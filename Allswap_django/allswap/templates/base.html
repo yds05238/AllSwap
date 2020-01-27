@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>AllSwap</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <nav class = 'navbar mynav' role='navigation' id = 'navbar'>
+            <div class = "container">
+                <a class = 'navbar-brand mynav' href = "{% url 'home' %}">AllSwap</a>
+                <ul class = 'nav navbar-nav navbar-right'>
+                    {% if user.is_authenticated %}
+                        <li><a href = "{% url 'products:uploads' %}">Upload</a></li>
+                        <li><a href = "#">Shopping Cart</a></li>
+                        <li><a href = "{% url 'accounts:logout' %}">Log Out</a></li>
+                    {% else %}
+                        <li><a href = "{% url 'products:list' %}">Products</a></li>
+                        <li><a href = "{% url 'accounts:login' %}">Log In</a></li>
+                        <li><a href = "{% url 'accounts:signup' %}">Sign Up</a></li>
+                    {% endif %}
+            </div>
+        </nav>
+    <div class = "container mycontent">
+    {% block content %}
+    
+    {% endblock %}
+    </div>
+    
+    </body>
+</html>

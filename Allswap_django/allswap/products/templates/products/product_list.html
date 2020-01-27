@@ -1,0 +1,24 @@
+{% extends "products/product_base.html" %}
+{% load static %}
+{% block products_content %}
+<div class = "col-md-8">
+    <div class = "products-group">
+        {% for product in product_list %}
+            <h5>{{product.name}}</h5>
+
+            <div class = "list-product-item-text container-fluid">
+                {{product.description}}
+                <div class = "row">
+                    <div class = "col-md-4">
+                        {{product.price}}
+                    </div>
+                    <div class = "image">
+                        <img src="{% static "{{product.image}}" %}" alt="My image">
+             
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
