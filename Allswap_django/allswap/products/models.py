@@ -37,9 +37,6 @@ class Product(models.Model):
             self.slug = self._get_unique_slug()
         super().save(*args, **kwargs)    
 
-    def get_absolute_url(self):
-        return reverse('products:detail',kwargs = {'slug':self.slug})
-
     class Meta: 
         ordering = ['name']
 

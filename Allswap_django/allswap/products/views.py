@@ -12,14 +12,13 @@ from . import models
 class ProductsList(generic.ListView):
     context_object_name = "product_list"
     model = models.Product
-    template_name = "products_list.html"
+    template_name = "products/products_list.html"
 
 
 class ProductDetail(generic.DetailView):
     model = models.Product
-    template_name = "products_detail.html"
+    template_name = "products/product_detail.html"
     context_object_name = 'product'
-   
 
 class UploadProduct(LoginRequiredMixin,generic.CreateView):
     fields = ('name','price','description')
