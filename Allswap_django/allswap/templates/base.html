@@ -10,7 +10,7 @@
     <body>
         <nav class = 'navbar mynav' role='navigation' id = 'navbar'>
             <div class = "container">
-                <a class = 'navbar-brand mynav' href = "{% url 'home' %}"><img src = "{% static 'images/logo.png' %}"/> </a>
+                <a class = 'navbar-brand mynav' href = "{% url 'home' %}"><img src = "{% static 'images/logo.png' %}" style = "height:50px;width:90px"></a>
                 <ul class = 'nav navbar-nav navbar-right'>
                     {% if user.is_authenticated %}
                         <li><a href = "{% url 'products:uploads' %}">Upload</a></li>
