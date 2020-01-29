@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.forms import ModelForm 
+
 
 # Create your models here.
 class Category(models.Model):
@@ -15,9 +17,8 @@ class Product(models.Model):
     courseID = models.SlugField(max_length = 50)
     categoryID = models.ForeignKey(Category, null = True, blank = True, on_delete = models.CASCADE)
     price = models.DecimalField(max_digits = 8, decimal_places = 2)
-    slug = models.SlugField(editable = False)
+    slug = models.SlugField(editable = False,blank = False)
     description = models.TextField()
-    stock = models.IntegerField()
     image = models.ImageField(upload_to='images/')
 
     def __str__(self):
@@ -36,9 +37,11 @@ class Product(models.Model):
         if not self.slug:
             self.slug = self._get_unique_slug()
         super().save(*args, **kwargs)    
+    
+    def get_absolute_url(self): 
+        return reverse("products:detail", kwargs={"slug": self.slug})
 
     class Meta: 
         ordering = ['name']
-
 
 
