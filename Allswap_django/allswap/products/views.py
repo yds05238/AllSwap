@@ -54,6 +54,6 @@ class UploadProduct(LoginRequiredMixin,SelectRelatedMixin, generic.CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.username = self.request.user
+        self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
