@@ -2,7 +2,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.forms import ModelForm 
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 # Create your models here.
 class Category(models.Model):
@@ -11,8 +13,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    
 class Product(models.Model):
+    user = models.ForeignKey(User, related_name = "user_products", on_delete = models.CASCADE, null = True)
     name = models.CharField(max_length = 255)
     courseID = models.SlugField(max_length = 50)
     categoryID = models.ForeignKey(Category, null = True, blank = True, on_delete = models.CASCADE)
@@ -32,6 +34,7 @@ class Product(models.Model):
             unique_slug = '{}-{}'.format(slug, num)
             num += 1
         return unique_slug
+
 
     def save(self, *args, **kwargs):
         if not self.slug:

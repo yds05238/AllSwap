@@ -1,0 +1,22 @@
+{% extends "products/product_base.html" %}
+
+{% block products_content %}
+
+<div class = "col-md-4">
+    <h1>@{{ user.get_username }}</h1>
+</div>
+
+<div class = 'col-md-8'>
+    {% for product in product_user.user_products.all %}
+    <div class = "list-product-item-text container-fluid">
+        <td><ul>Title: {{ product.name}} </ul>
+            <ul><img src= "{{ product.image.url }}" alt="My image" style="width:100px;height:100px"></ul>
+            <ul>Course ID: {{product.courseID}}</ul>
+            <ul>Description: {{product.description}}</ul>         
+            <ul>Price: ${{product.price}} </ul>
+        </td>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
