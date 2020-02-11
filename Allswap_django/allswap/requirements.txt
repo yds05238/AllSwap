@@ -1,0 +1,15 @@
+asgiref==3.2.3
+bash==0.6
+Django==3.0.2
+django-bootstrap3==12.0.3
+django-braces==1.14.0
+django-filter==2.2.0
+django-haystack==2.8.1
+djangorestframework==3.11.0
+Markdown==3.1.1
+Pillow==7.0.0
+pytz==2019.3
+six==1.14.0
+sqlparse==0.3.0
+psycopg2==2.8.4
+psycopg2-binary==2.8.4

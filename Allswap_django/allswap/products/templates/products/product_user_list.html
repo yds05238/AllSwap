@@ -1,0 +1,31 @@
+{% extends "products/product_base.html" %}
+
+{% block products_content %}
+
+<div class = "col-md-4">
+    <h1>@{{ user.get_username }}</h1>
+</div>
+
+<div class = 'col-md-8'>
+    {% for product in product_user.user_products.all %}
+    <div class = "list-product-item-text container-fluid">
+        <td><ul>Title: {{ product.name}} </ul>
+            <ul><img src= "{{ product.image.url }}" alt="My image" style="width:100px;height:100px"></ul>
+            <ul>Course ID: {{product.courseID}}</ul>
+            <ul>Description: {{product.description}}</ul>         
+            <ul>Price: ${{product.price}} </ul>
+        </td>
+    </div>
+
+    {% if user.is_authenticated and product.user == user %}
+    <a href = "{% url 'products:delete' slug=product.slug %}" title = "delete" class = 'btn btn-simple'>
+        <span class = 'glyphicon glyphicon-remove text-danger' aria-hidden = 'true'></span>
+        <span class = 'text-danger icon-label'>Delete</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

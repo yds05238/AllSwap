@@ -1,0 +1,10 @@
+<div class = "post media">
+    <div class = "media-body">
+        <strong>{{product.user.username}}</strong>
+        <h5 class = 'media-heading'>
+        <span class = 'username'>
+            <a href = "{% url 'products:for_user' username=product.user.username %}"></a>
+        </span>
+        </h5>
+    </div>
+</div>

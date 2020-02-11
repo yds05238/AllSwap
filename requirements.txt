@@ -10,3 +10,6 @@ urllib3
 Flask-Login==0.4.1
 datetime
 
+Python == 3.6.1
+Django == 3.0.1
+Bootstrap3

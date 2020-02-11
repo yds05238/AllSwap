@@ -1,0 +1,12 @@
+{% extends "products/product_base.html" %}
+
+{% block products_content %}
+<h2> <img src= "{{ product.image.url }}" alt="My image" style="width:100px;height:100px"> </h2>
+<h1>{{product.name}}</h1>
+<h2>Price: {{product.price}}</h2>
+<h2>Description: {{product.description}}</h2>
+
+
+
+
+{% endblock %}

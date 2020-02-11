@@ -1,0 +1,18 @@
+{% extends "products/product_base.html" %}
+{% load static %}
+{% block products_content %}
+<div class = "col-md-8">
+    <div class = "products-group">
+        {% for product in product_list %}
+            <div class = "list-product-item-text container-fluid">
+                <td><ul><a href = "{% url 'products:detail' slug=product.slug %}"><h5>Title: {{product.name}}</h5></a></ul>
+                    <ul><img src= "{{ product.image.url }}" alt="My image" style="width:100px;height:100px"></ul>
+                    <ul>Course ID: {{product.courseID}}</ul>
+                    <ul>Description: {{product.description}}</ul>         
+                    <ul>Price: ${{product.price}} </ul>
+                </td>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "products/product_base.html" %}
+{% load bootstrap3 %}
+
+{%block products_content %}
+<h4>Upload your product!</h4>
+<form id = 'uploadForm' action = "{% url 'products:uploads' %}"  enctype="multipart/form-data" method = "POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type = "submit" value = "Submit" class = 'btn btn-primary btn-large'>
+</form>
+
+{% endblock %}
