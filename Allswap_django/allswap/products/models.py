@@ -16,7 +16,6 @@ class Category(models.Model):
 class Product(models.Model):
     user = models.ForeignKey(User, related_name = "user_products", on_delete = models.CASCADE, null = True)
     name = models.CharField(max_length = 255)
-    courseID = models.SlugField(max_length = 50)
     categoryID = models.ForeignKey(Category, null = True, blank = True, on_delete = models.CASCADE)
     price = models.DecimalField(max_digits = 8, decimal_places = 2)
     slug = models.SlugField(editable = False,blank = False)
