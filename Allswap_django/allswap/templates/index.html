@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class = "search-bar">
+    <div class = "search-bar">
 
 <form action="{% url 'products:search' %}" method="get"> Search:
     <input name="search_name" type="text" placeholder="Search...">
