@@ -1,6 +1,6 @@
 asgiref==3.2.3
 bash==0.6
-Django==3.0.2
+Django==3.1.12
 django-bootstrap3==12.0.3
 django-braces==1.14.0
 django-filter==2.2.0
